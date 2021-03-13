@@ -3,33 +3,32 @@ package com.github.ziem.remoteisok
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.ScrollableColumn
-import androidx.compose.foundation.Text
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayout
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.AmbientEmphasisLevels
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ProvideEmphasis
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flag
@@ -42,11 +41,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.setContent
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.viewModel
+import androidx.hilt.navigation.compose.hiltNavGraphViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -60,11 +58,11 @@ import com.github.ziem.remoteisok.ui.RemoteIsOkTheme
 import com.github.ziem.remoteisok.ui.typography
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.coil.CoilImage
+import dev.chrisbanes.accompanist.flowlayout.FlowRow
 import java.util.*
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    @ExperimentalLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -79,12 +77,12 @@ class MainActivity : AppCompatActivity() {
                                 },
                                 actions = {
                                     IconButton(onClick = {}) {
-                                        Icon(Icons.Filled.Search)
+                                        Icon(Icons.Filled.Search, "search")
                                     }
                                 }
                             )
                         },
-                        bodyContent = {
+                        content = {
                             NavGraph(onHeaderClick = {
                                 startActivity(
                                     Intent(
@@ -103,13 +101,11 @@ class MainActivity : AppCompatActivity() {
 
 @Composable
 fun NavGraph(onHeaderClick: () -> Unit) {
-    val jobsViewModel: JobsViewModel = viewModel()
-    val jobViewModel: JobViewModel = viewModel()
     val navController = rememberNavController()
 
     NavHost(navController, startDestination = "jobs") {
-        composable("jobs") { JobsScreen(jobsViewModel, navController, onHeaderClick) }
-        composable("job") { JobScreen(jobViewModel) }
+        composable("jobs") { JobsScreen(hiltNavGraphViewModel(), navController, onHeaderClick) }
+        composable("job") { JobScreen(hiltNavGraphViewModel()) }
     }
 }
 
@@ -117,7 +113,7 @@ fun NavGraph(onHeaderClick: () -> Unit) {
 fun JobScreen(viewModel: JobViewModel) {
     val state by viewModel.job.collectAsState()
 
-    ScrollableColumn {
+    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
         CompanyImageComposable(128.dp, state.company)
         Text(state.company.name, style = typography.h1)
         Text(state.position, style = typography.h2)
@@ -142,11 +138,11 @@ fun JobsScreen(viewModel: JobsViewModel, navController: NavController, onHeaderC
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
-            LazyColumnFor(
-                items = state
-            ) {
-                JobRowComposable(it) { navController.navigate("job") }
-                Divider()
+            LazyColumn {
+                items(state) { job ->
+                    JobRowComposable(job) { navController.navigate("job") }
+                    Divider()
+                }
             }
         }
         Text(
@@ -180,13 +176,12 @@ fun JobRowComposable(job: Job, onJobClick: () -> Unit) {
                 .align(Alignment.CenterVertically)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                ProvideEmphasis(emphasis = AmbientEmphasisLevels.current.medium) {
-                    Text(job.company.name, style = MaterialTheme.typography.body2)
-                }
+                Text(job.company.name, style = MaterialTheme.typography.body2)
                 Box(modifier = Modifier.weight(1f))
                 if (job.isWorldwide()) {
                     Icon(
                         Icons.Filled.Public,
+                        contentDescription = "worldwide",
                         tint = Color.DarkGray,
                         modifier = Modifier.size(12.dp)
                     )
@@ -195,6 +190,7 @@ fun JobRowComposable(job: Job, onJobClick: () -> Unit) {
                 } else if (job.hasLocation()) {
                     Icon(
                         Icons.Filled.Flag,
+                        contentDescription = "with location",
                         tint = Color.DarkGray,
                         modifier = Modifier.size(12.dp)
                     )
@@ -207,7 +203,7 @@ fun JobRowComposable(job: Job, onJobClick: () -> Unit) {
                 style = typography.h6
             )
             if (job.tags.isNotEmpty()) {
-                Spacer(modifier = Modifier.preferredSize(4.dp))
+                Spacer(modifier = Modifier.height(4.dp))
                 TagsComposable(tags = job.tags)
             }
         }
@@ -223,8 +219,8 @@ fun CompanyImageComposable(size: Dp, company: Company) {
             .border(1.dp, Color.LightGray, RoundedCornerShape(4.dp))
             .padding(4.dp)
     ) {
-        if (company.logoUrl != null) {
-            CoilImage(company.logoUrl, Modifier.fillMaxSize())
+        if (company.logoUrl != null && company.logoUrl != "https://cdn.sstatic.net/careers/Img/ico-no-company-logo.svg") {
+            CoilImage(company.logoUrl, "logo", Modifier.fillMaxSize())
         } else {
             Text(
                 text = company.name.first().toString().toUpperCase(Locale.getDefault()),

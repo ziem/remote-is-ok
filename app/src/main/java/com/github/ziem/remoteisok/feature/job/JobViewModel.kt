@@ -1,19 +1,20 @@
 package com.github.ziem.remoteisok.feature.job
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.ziem.remoteisok.data.JobsRepository
 import com.github.ziem.remoteisok.model.Company
 import com.github.ziem.remoteisok.model.Job
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
-class JobViewModel @ViewModelInject constructor(private val jobsRepository: JobsRepository) :
-    ViewModel() {
+@HiltViewModel
+class JobViewModel @Inject constructor(
+    private val jobsRepository: JobsRepository
+) : ViewModel() {
     private val _job = MutableStateFlow(Job.empty())
 
     val job: StateFlow<Job>
