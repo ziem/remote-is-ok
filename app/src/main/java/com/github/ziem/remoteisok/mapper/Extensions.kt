@@ -6,7 +6,7 @@ import com.github.ziem.remoteisok.model.JobResponse
 
 fun JobResponse.asJob(): Job {
     val tags = tags?.map { tag -> tag.replace("_", " ") }
-    val companyLogo = if (company_logo.isNullOrBlank()) {
+    val companyLogo = if (company_logo.isNullOrBlank() || company_logo == "https://cdn.sstatic.net/careers/Img/ico-no-company-logo.svg") {
         null
     } else {
         company_logo
