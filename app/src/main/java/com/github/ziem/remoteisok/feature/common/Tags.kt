@@ -11,7 +11,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.github.ziem.remoteisok.ui.typography
-import dev.chrisbanes.accompanist.flowlayout.FlowRow
+import com.google.accompanist.flowlayout.FlowRow
 
 @Composable
 fun Tags(tags: List<String>) {

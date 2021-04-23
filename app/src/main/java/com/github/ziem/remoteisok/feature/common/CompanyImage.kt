@@ -1,5 +1,6 @@
 package com.github.ziem.remoteisok.feature.common
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.github.ziem.remoteisok.model.Company
 import com.github.ziem.remoteisok.ui.typography
-import dev.chrisbanes.accompanist.coil.CoilImage
+import com.google.accompanist.coil.rememberCoilPainter
 import java.util.*
 
 @Composable
@@ -25,8 +26,14 @@ fun CompanyImage(company: Company, modifier: Modifier = Modifier) {
             .border(1.dp, Color.LightGray, RoundedCornerShape(4.dp))
             .padding(4.dp)
     ) {
-        if (company.logoUrl != null) {
-            CoilImage(company.logoUrl, "logo", Modifier.fillMaxSize())
+        if (company.logoUrl?.isNotBlank() == true && company.logoUrl != "https://cdn.sstatic.net/careers/Img/ico-no-company-logo.svg") {
+            Image(
+                painter = rememberCoilPainter(
+                    request = company.logoUrl,
+                ),
+                contentDescription = "logo",
+                modifier = Modifier.fillMaxSize(),
+            )
         } else {
             Text(
                 text = company.name.first().toString().toUpperCase(Locale.getDefault()),
