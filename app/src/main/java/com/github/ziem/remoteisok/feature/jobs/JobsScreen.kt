@@ -39,12 +39,12 @@ import com.github.ziem.remoteisok.ui.typography
 
 @Composable
 fun JobsScreen(viewModel: JobsViewModel, navController: NavController, onHeaderClick: () -> Unit) {
-    val state by viewModel.jobs.collectAsState()
+    val state by viewModel.state.collectAsState()
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             LazyColumn {
-                items(state) { job ->
+                items(state.jobs) { job ->
                     JobRowComposable(job) { navController.navigate("job") }
                     Divider()
                 }
