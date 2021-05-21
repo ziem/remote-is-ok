@@ -81,8 +81,7 @@ fun JobRowComposable(job: Job, onJobClick: () -> Unit) {
                 .align(Alignment.CenterVertically)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(job.company.name, style = MaterialTheme.typography.body2)
-                Box(modifier = Modifier.weight(1f))
+                Text(job.company.name, style = MaterialTheme.typography.body2, modifier = Modifier.weight(1f))
                 if (job.isWorldwide()) {
                     Icon(
                         Icons.Filled.Public,
