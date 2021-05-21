@@ -6,6 +6,7 @@ import com.github.ziem.remoteisok.data.JobsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,9 +20,21 @@ class JobsViewModel @Inject constructor(
         get() = _state
 
     init {
+        observeJobs()
+    }
+
+    private fun observeJobs() {
+        viewModelScope.launch {
+            jobsRepository.getJobs()
+                .collect { _state.emit(_state.value.copy(jobs = it, isLoading = false)) }
+        }
+    }
+
+    fun refreshJobs() {
         viewModelScope.launch {
             _state.emit(_state.value.copy(isLoading = true))
-            _state.emit(_state.value.copy(jobs = jobsRepository.getJobs(), isLoading = false))
+            jobsRepository.syncJobs()
+            _state.emit(_state.value.copy(isLoading = false))
         }
     }
 }
