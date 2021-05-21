@@ -69,6 +69,6 @@ class MainActivity : AppCompatActivity() {
 fun NavGraph(navController: NavHostController, onHeaderClick: () -> Unit) {
     NavHost(navController, startDestination = "jobs") {
         composable("jobs") { JobsScreen(hiltNavGraphViewModel(), navController, onHeaderClick) }
-        composable("job") { JobScreen(hiltNavGraphViewModel()) }
+        composable("job") { JobScreen(hiltNavGraphViewModel(), 1) }
     }
 }

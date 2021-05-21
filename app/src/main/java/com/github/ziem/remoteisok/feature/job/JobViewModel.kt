@@ -16,15 +16,15 @@ import javax.inject.Inject
 class JobViewModel @Inject constructor(
     private val jobsRepository: JobsRepository
 ) : ViewModel() {
-    private val _job = MutableStateFlow(Job.empty())
+    private val _state = MutableStateFlow(JobViewState())
 
-    val job: StateFlow<Job>
-        get() = _job
+    val state: StateFlow<JobViewState>
+        get() = _state
 
-    init {
+    fun loadJob(jobId: Long) {
         viewModelScope.launch {
             // TODO: fetch from repository
-            val jobResponse = Job(
+            val job = Job(
                 1,
                 "Senior Software Developer",
                 "Shopify is now permanently remote and working towards a future that is digital by default. Learn more about what this can mean for you.",
@@ -37,7 +37,8 @@ class JobViewModel @Inject constructor(
                 "Worldwide",
                 listOf("html", "ruby", "react", "react native")
             )
-            _job.value = jobResponse
+            _state.value = _state.value.copy(isLoading = true)
+            _state.value = _state.value.copy(job = job, isLoading = false)
         }
     }
 }
