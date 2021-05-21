@@ -15,7 +15,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltNavGraphViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -70,9 +70,9 @@ class MainActivity : AppCompatActivity() {
 @Composable
 fun NavGraph(navController: NavHostController, onHeaderClick: () -> Unit) {
     NavHost(navController, startDestination = "jobs") {
-        composable("jobs") { JobsScreen(hiltNavGraphViewModel(), navController, onHeaderClick) }
+        composable("jobs") { JobsScreen(hiltViewModel(), navController, onHeaderClick) }
         composable("job/{jobId}", listOf(navArgument("jobId") { type = NavType.LongType })) { backStackEntry ->
-            JobScreen(hiltNavGraphViewModel(), backStackEntry.arguments!!.getLong("jobId"))
+            JobScreen(hiltViewModel(), backStackEntry.arguments!!.getLong("jobId"))
         }
     }
 }
