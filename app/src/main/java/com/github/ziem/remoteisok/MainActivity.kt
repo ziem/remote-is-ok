@@ -17,8 +17,10 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltNavGraphViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
 import com.github.ziem.remoteisok.feature.job.JobScreen
 import com.github.ziem.remoteisok.feature.jobs.JobsScreen
@@ -69,6 +71,8 @@ class MainActivity : AppCompatActivity() {
 fun NavGraph(navController: NavHostController, onHeaderClick: () -> Unit) {
     NavHost(navController, startDestination = "jobs") {
         composable("jobs") { JobsScreen(hiltNavGraphViewModel(), navController, onHeaderClick) }
-        composable("job") { JobScreen(hiltNavGraphViewModel(), 1) }
+        composable("job/{jobId}", listOf(navArgument("jobId") { type = NavType.LongType })) { backStackEntry ->
+            JobScreen(hiltNavGraphViewModel(), backStackEntry.arguments!!.getLong("jobId"))
+        }
     }
 }
