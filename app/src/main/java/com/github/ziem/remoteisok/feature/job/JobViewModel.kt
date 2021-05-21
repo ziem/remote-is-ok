@@ -20,8 +20,8 @@ class JobViewModel @Inject constructor(
 
     fun loadJob(jobId: Long) {
         viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true)
-            _state.value = _state.value.copy(job = jobsRepository.getJob(jobId), isLoading = false)
+            _state.emit(_state.value.copy(isLoading = true))
+            _state.emit(_state.value.copy(job = jobsRepository.getJob(jobId), isLoading = false))
         }
     }
 }
