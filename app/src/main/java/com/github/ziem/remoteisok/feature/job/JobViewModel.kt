@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.time.OffsetDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,6 +25,7 @@ class JobViewModel @Inject constructor(
         viewModelScope.launch {
             // TODO: fetch from repository
             val jobResponse = Job(
+                1,
                 "Senior Software Developer",
                 "Shopify is now permanently remote and working towards a future that is digital by default. Learn more about what this can mean for you.",
                 Company(
@@ -31,7 +33,7 @@ class JobViewModel @Inject constructor(
                     "https://remoteok.io/assets/jobs/99281a114893cc6c5b949f646c0ef1e61607980072.png"
                 ),
                 "https://remoteok.io/remote-jobs/100867",
-                "2020-12-15T22:59:52+00:00",
+                OffsetDateTime.now(),
                 "Worldwide",
                 listOf("html", "ruby", "react", "react native")
             )

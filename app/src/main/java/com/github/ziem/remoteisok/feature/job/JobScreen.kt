@@ -28,7 +28,7 @@ fun JobScreen(viewModel: JobViewModel) {
         Text(state.description, style = typography.body1)
         Text(state.location, style = typography.h4)
         Text(state.url, style = typography.h5)
-        Text(state.date, style = typography.h6)
+        Text(state.date.toString(), style = typography.h6)
 
         Tags(tags = state.tags)
     }
