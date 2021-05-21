@@ -36,6 +36,9 @@ import com.github.ziem.remoteisok.feature.common.CompanyImage
 import com.github.ziem.remoteisok.feature.common.Tags
 import com.github.ziem.remoteisok.model.Job
 import com.github.ziem.remoteisok.ui.typography
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun JobsScreen(viewModel: JobsViewModel, navController: NavController, onHeaderClick: () -> Unit) {
@@ -43,10 +46,17 @@ fun JobsScreen(viewModel: JobsViewModel, navController: NavController, onHeaderC
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
-            LazyColumn {
-                items(state.jobs) { job ->
-                    JobRowComposable(job) { navController.navigate("job") }
-                    Divider()
+            SwipeRefresh(
+                state = rememberSwipeRefreshState(state.isLoading),
+                onRefresh = { viewModel.refreshJobs() },
+                indicator = { state, trigger -> SwipeRefreshIndicator(state, trigger) },
+                modifier = Modifier.align(Alignment.CenterHorizontally).fillMaxSize()
+            ) {
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    items(state.jobs) { job ->
+                        JobRowComposable(job) { navController.navigate("job/${job.id}") }
+                        Divider()
+                    }
                 }
             }
         }
