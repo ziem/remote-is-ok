@@ -5,15 +5,8 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -37,30 +30,14 @@ class MainActivity : AppCompatActivity() {
 
             RemoteIsOkTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    Scaffold(
-                        topBar = {
-                            TopAppBar(
-                                title = {
-                                    Text("Remote is OK")
-                                },
-                                actions = {
-                                    IconButton(onClick = {}) {
-                                        Icon(Icons.Filled.Search, "search")
-                                    }
-                                }
+                    NavGraph(navController) {
+                        startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("https://remoteok.io/")
                             )
-                        },
-                        content = {
-                            NavGraph(navController) {
-                                startActivity(
-                                    Intent(
-                                        Intent.ACTION_VIEW,
-                                        Uri.parse("https://remoteok.io/")
-                                    )
-                                )
-                            }
-                        }
-                    )
+                        )
+                    }
                 }
             }
         }

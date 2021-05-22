@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -21,9 +23,24 @@ import com.github.ziem.remoteisok.feature.common.CompanyImage
 import com.github.ziem.remoteisok.feature.common.Tags
 import com.github.ziem.remoteisok.ui.typography
 
-
 @Composable
 fun JobScreen(viewModel: JobViewModel, jobId: Long) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text("Remote is OK")
+                },
+            )
+        },
+        content = {
+            JobScreenContent(viewModel, jobId)
+        }
+    )
+}
+
+@Composable
+fun JobScreenContent(viewModel: JobViewModel, jobId: Long) {
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(jobId) {
@@ -48,9 +65,7 @@ fun JobScreen(viewModel: JobViewModel, jobId: Long) {
             AndroidView(
                 modifier = Modifier.fillMaxWidth(),
                 factory = { context -> TextView(context) }
-            ) { view ->
-                view.text = HtmlCompat.fromHtml(job.description, HtmlCompat.FROM_HTML_MODE_COMPACT)
-            }
+            ) { view -> view.text = HtmlCompat.fromHtml(job.description, HtmlCompat.FROM_HTML_MODE_COMPACT) }
             Text(job.location, style = typography.h4)
             Text(job.url, style = typography.h5)
             Text(job.date.toString(), style = typography.h6)

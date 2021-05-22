@@ -17,11 +17,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.Public
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -43,11 +47,32 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun JobsScreen(viewModel: JobsViewModel, navController: NavController, onHeaderClick: () -> Unit) {
-    val state by viewModel.state.collectAsState()
-
     LaunchedEffect("refresh") {
         viewModel.refreshJobs()
     }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text("Remote is OK")
+                },
+                actions = {
+                    IconButton(onClick = {}) {
+                        Icon(Icons.Filled.Search, "search")
+                    }
+                }
+            )
+        },
+        content = {
+            JobsScreenContent(viewModel, navController, onHeaderClick)
+        }
+    )
+}
+
+@Composable
+fun JobsScreenContent(viewModel: JobsViewModel, navController: NavController, onHeaderClick: () -> Unit) {
+    val state by viewModel.state.collectAsState()
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
@@ -55,7 +80,9 @@ fun JobsScreen(viewModel: JobsViewModel, navController: NavController, onHeaderC
                 state = rememberSwipeRefreshState(state.isLoading),
                 onRefresh = { viewModel.refreshJobs() },
                 indicator = { state, trigger -> SwipeRefreshIndicator(state, trigger) },
-                modifier = Modifier.align(Alignment.CenterHorizontally).fillMaxSize()
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .fillMaxSize()
             ) {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(state.jobs) { job ->
@@ -77,6 +104,7 @@ fun JobsScreen(viewModel: JobsViewModel, navController: NavController, onHeaderC
             style = MaterialTheme.typography.body1,
         )
     }
+
 }
 
 @Composable
