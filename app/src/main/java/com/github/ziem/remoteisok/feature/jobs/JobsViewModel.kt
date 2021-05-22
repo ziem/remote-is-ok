@@ -21,6 +21,7 @@ class JobsViewModel @Inject constructor(
 
     init {
         observeJobs()
+        refreshJobs()
     }
 
     private fun observeJobs() {

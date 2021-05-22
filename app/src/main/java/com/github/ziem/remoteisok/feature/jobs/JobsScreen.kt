@@ -27,7 +27,6 @@ import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -47,10 +46,6 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun JobsScreen(viewModel: JobsViewModel, navController: NavController, onHeaderClick: () -> Unit) {
-    LaunchedEffect("refresh") {
-        viewModel.refreshJobs()
-    }
-
     Scaffold(
         topBar = {
             TopAppBar(
