@@ -1,21 +1,30 @@
 package com.github.ziem.remoteisok.feature.job
 
+import android.content.Intent
+import android.net.Uri
 import android.widget.TextView
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.OpenInBrowser
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -27,6 +36,9 @@ import com.google.accompanist.flowlayout.FlowRow
 
 @Composable
 fun JobScreen(viewModel: JobViewModel, jobId: Long) {
+    val state by viewModel.state.collectAsState()
+    val context = LocalContext.current
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -37,6 +49,16 @@ fun JobScreen(viewModel: JobViewModel, jobId: Long) {
         },
         content = {
             JobScreenContent(viewModel, jobId)
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = {
+                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(state.job?.url)))
+            }) {
+                Icon(
+                    Icons.Filled.OpenInBrowser,
+                    contentDescription = "apply",
+                )
+            }
         }
     )
 }
@@ -54,7 +76,7 @@ fun JobScreenContent(viewModel: JobViewModel, jobId: Long) {
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
-                .padding(16.dp)
+                .padding(16.dp, 32.dp, 16.dp, 48.dp)
         ) {
             CompanyImage(
                 job.company,
@@ -62,15 +84,24 @@ fun JobScreenContent(viewModel: JobViewModel, jobId: Long) {
                     .size(128.dp)
                     .align(Alignment.CenterHorizontally)
             )
-            Text(job.company.name, style = typography.h1)
-            Text(job.position, style = typography.h2)
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(job.position, modifier = Modifier.align(Alignment.CenterHorizontally), style = typography.h5)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(job.company.name, Modifier.align(Alignment.CenterHorizontally), style = typography.h6)
+            if (job.location.isNotBlank()) {
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(job.location)
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Text("Posted ${job.date}")
+            Spacer(modifier = Modifier.height(8.dp))
             AndroidView(
                 modifier = Modifier.fillMaxWidth(),
                 factory = { context -> TextView(context) }
-            ) { view -> view.text = HtmlCompat.fromHtml(job.description, HtmlCompat.FROM_HTML_MODE_COMPACT) }
-            Text(job.location, style = typography.h4)
-            Text(job.url, style = typography.h5)
-            Text(job.date.toString(), style = typography.h6)
+            ) { view ->
+                view.textSize = 16.sp.value
+                view.text = HtmlCompat.fromHtml(job.description, HtmlCompat.FROM_HTML_MODE_COMPACT) }
+            Spacer(modifier = Modifier.height(16.dp))
             FlowRow(mainAxisSpacing = 8.dp, crossAxisSpacing = 8.dp) {
                 for (tag in job.tags) {
                     Tag(tag, 16.sp)
