@@ -37,9 +37,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.github.ziem.remoteisok.feature.common.CompanyImage
-import com.github.ziem.remoteisok.feature.common.Tags
+import com.github.ziem.remoteisok.feature.common.Tag
 import com.github.ziem.remoteisok.model.Job
 import com.github.ziem.remoteisok.ui.typography
+import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -146,7 +147,11 @@ fun JobRowComposable(job: Job, onJobClick: () -> Unit) {
             )
             if (job.tags.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(4.dp))
-                Tags(tags = job.tags)
+                FlowRow(mainAxisSpacing = 4.dp, crossAxisSpacing = 4.dp) {
+                    for (tag in job.tags) {
+                        Tag(tag)
+                    }
+                }
             }
         }
     }

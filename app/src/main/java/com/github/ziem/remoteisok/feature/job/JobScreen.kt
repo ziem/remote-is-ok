@@ -17,11 +17,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 import com.github.ziem.remoteisok.feature.common.CompanyImage
-import com.github.ziem.remoteisok.feature.common.Tags
+import com.github.ziem.remoteisok.feature.common.Tag
 import com.github.ziem.remoteisok.ui.typography
+import com.google.accompanist.flowlayout.FlowRow
 
 @Composable
 fun JobScreen(viewModel: JobViewModel, jobId: Long) {
@@ -69,7 +71,11 @@ fun JobScreenContent(viewModel: JobViewModel, jobId: Long) {
             Text(job.location, style = typography.h4)
             Text(job.url, style = typography.h5)
             Text(job.date.toString(), style = typography.h6)
-            Tags(tags = job.tags)
+            FlowRow(mainAxisSpacing = 8.dp, crossAxisSpacing = 8.dp) {
+                for (tag in job.tags) {
+                    Tag(tag, 16.sp)
+                }
+            }
         }
     }
 }
