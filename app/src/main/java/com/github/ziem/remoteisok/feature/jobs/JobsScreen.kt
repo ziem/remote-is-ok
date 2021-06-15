@@ -1,6 +1,7 @@
 package com.github.ziem.remoteisok.feature.jobs
 
 import android.content.res.Configuration
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -50,6 +51,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
+@ExperimentalFoundationApi
 @Composable
 fun JobsScreen(viewModel: JobsViewModel, navController: NavController, onHeaderClick: () -> Unit) {
     Scaffold(
@@ -71,6 +73,7 @@ fun JobsScreen(viewModel: JobsViewModel, navController: NavController, onHeaderC
     )
 }
 
+@ExperimentalFoundationApi
 @Composable
 fun JobsScreenContent(viewModel: JobsViewModel, navController: NavController, onHeaderClick: () -> Unit) {
     val state by viewModel.state.collectAsState()
