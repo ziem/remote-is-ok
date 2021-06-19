@@ -14,17 +14,4 @@ data class Job(
 ) {
     fun isWorldwide(): Boolean = location == "Worldwide"
     fun hasLocation(): Boolean = location.isNotBlank()
-
-    companion object {
-        fun empty(): Job = Job(
-            -1,
-            "",
-            "",
-            Company("", null),
-            "",
-            OffsetDateTime.now(),
-            "",
-            emptyList()
-        )
-    }
 }

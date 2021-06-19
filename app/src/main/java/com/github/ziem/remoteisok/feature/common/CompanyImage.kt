@@ -36,7 +36,7 @@ fun CompanyImage(company: Company, modifier: Modifier = Modifier) {
             )
         } else {
             Text(
-                text = company.name.first().toString().toUpperCase(Locale.getDefault()),
+                text = company.name.first().toString().uppercase(Locale.getDefault()),
                 modifier = Modifier.align(Alignment.Center),
                 style = typography.h5
             )

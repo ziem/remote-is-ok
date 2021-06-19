@@ -26,7 +26,7 @@ private val LightColorPalette = lightColors(
 )
 
 @Composable
-fun RemoteIsOkTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
+fun RemoteIsOkTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {
