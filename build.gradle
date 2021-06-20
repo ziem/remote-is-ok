@@ -2,8 +2,7 @@
 buildscript {
     ext {
         compose_version = '1.0.0-beta09'
-        dagger_version = '2.35.1'
-        dagger_hilt_version = '2.35.1'
+        dagger_version = '2.37'
         kotlin_version = '1.5.10'
         room_version = '2.3.0'
         accompanist_version = '0.12.0'
@@ -16,7 +15,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:7.1.0-alpha02'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.google.dagger:hilt-android-gradle-plugin:HEAD-20210521.004900-252"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$dagger_version"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
