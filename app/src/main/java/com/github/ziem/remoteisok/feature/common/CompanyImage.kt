@@ -13,9 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import coil.compose.LocalImageLoader
+import coil.compose.rememberImagePainter
 import com.github.ziem.remoteisok.model.Company
 import com.github.ziem.remoteisok.ui.typography
-import com.google.accompanist.coil.rememberCoilPainter
 import java.util.*
 
 @Composable
@@ -28,8 +29,9 @@ fun CompanyImage(company: Company, modifier: Modifier = Modifier) {
     ) {
         if (company.logoUrl?.isNotBlank() == true && company.logoUrl != "https://cdn.sstatic.net/careers/Img/ico-no-company-logo.svg") {
             Image(
-                painter = rememberCoilPainter(
-                    request = company.logoUrl,
+                painter = rememberImagePainter(
+                    data = company.logoUrl,
+                    imageLoader = LocalImageLoader.current,
                 ),
                 contentDescription = "logo",
                 modifier = Modifier.fillMaxSize(),
