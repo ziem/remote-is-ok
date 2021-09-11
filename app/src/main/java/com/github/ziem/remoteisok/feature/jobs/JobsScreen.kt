@@ -40,6 +40,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.github.ziem.remoteisok.feature.common.CompanyImage
@@ -112,17 +113,7 @@ fun JobsScreenContent(viewModel: JobsViewModel, navController: NavController, on
                 }
             }
         }
-        Text(
-            text = "Powered by Remote OK",
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .clickable(onClick = onHeaderClick)
-                .clip(RoundedCornerShape(4.dp, 0.dp, 0.dp, 0.dp))
-                .border(1.dp, Color.LightGray, RoundedCornerShape(4.dp, 0.dp, 0.dp, 0.dp))
-                .background(MaterialTheme.colors.background)
-                .padding(16.dp, 8.dp, 8.dp, 8.dp),
-            style = MaterialTheme.typography.body1,
-        )
+        PoweredByRemoteOk(Modifier.align(Alignment.BottomEnd), onHeaderClick)
     }
 
 }
@@ -179,4 +170,19 @@ fun JobRowComposable(job: Job, onJobClick: () -> Unit) {
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun PoweredByRemoteOk(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
+    Text(
+        text = "Powered by Remote OK",
+        modifier = modifier
+            .clickable(onClick = onClick)
+            .clip(RoundedCornerShape(4.dp, 0.dp, 0.dp, 0.dp))
+            .border(1.dp, Color.LightGray, RoundedCornerShape(4.dp, 0.dp, 0.dp, 0.dp))
+            .background(MaterialTheme.colors.background)
+            .padding(16.dp, 8.dp, 8.dp, 8.dp),
+        style = MaterialTheme.typography.body1,
+    )
 }
