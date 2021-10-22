@@ -14,8 +14,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.github.ziem.remoteisok.feature.job.JobScreen
 import com.github.ziem.remoteisok.feature.jobs.JobsScreen
 import com.github.ziem.remoteisok.ui.RemoteIsOkTheme
