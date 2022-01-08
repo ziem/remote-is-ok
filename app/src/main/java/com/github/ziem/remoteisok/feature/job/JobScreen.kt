@@ -2,10 +2,8 @@ package com.github.ziem.remoteisok.feature.job
 
 import android.content.Intent
 import android.net.Uri
-import android.widget.TextView
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -27,12 +25,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.text.HtmlCompat
 import com.github.ziem.remoteisok.feature.common.CompanyImage
 import com.github.ziem.remoteisok.feature.common.Tag
 import com.github.ziem.remoteisok.ui.typography
 import com.google.accompanist.flowlayout.FlowRow
+import org.commonmark.node.Document
+import org.commonmark.parser.Parser
+import se.hellsoft.markdowncomposer.MDDocument
 
 @Composable
 fun JobScreen(viewModel: JobViewModel, jobId: Long) {
@@ -72,6 +71,7 @@ fun JobScreenContent(viewModel: JobViewModel, jobId: Long) {
     }
 
     val job = state.job
+    val parser = Parser.builder().build()
     if (job != null) {
         Column(
             modifier = Modifier
@@ -95,12 +95,8 @@ fun JobScreenContent(viewModel: JobViewModel, jobId: Long) {
             Spacer(modifier = Modifier.height(8.dp))
             Text("Posted ${job.date}")
             Spacer(modifier = Modifier.height(8.dp))
-            AndroidView(
-                modifier = Modifier.fillMaxWidth(),
-                factory = { context -> TextView(context) }
-            ) { view ->
-                view.textSize = 16.sp.value
-                view.text = HtmlCompat.fromHtml(job.description, HtmlCompat.FROM_HTML_MODE_COMPACT) }
+            val root = parser.parse(job.description) as Document
+            MDDocument(root)
             Spacer(modifier = Modifier.height(16.dp))
             FlowRow(mainAxisSpacing = 8.dp, crossAxisSpacing = 8.dp) {
                 for (tag in job.tags) {
