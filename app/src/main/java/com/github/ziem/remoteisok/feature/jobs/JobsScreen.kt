@@ -51,6 +51,7 @@ import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import kotlin.math.min
 
 @ExperimentalFoundationApi
 @Composable
@@ -163,7 +164,7 @@ fun JobRowComposable(job: Job, onJobClick: () -> Unit) {
             if (job.tags.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(4.dp))
                 FlowRow(mainAxisSpacing = 4.dp, crossAxisSpacing = 4.dp) {
-                    for (tag in job.tags) {
+                    for (tag in job.tags.subList(0, min(4, job.tags.size))) {
                         Tag(tag)
                     }
                 }
