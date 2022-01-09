@@ -27,7 +27,9 @@ class JobsViewModel @Inject constructor(
     private fun observeJobs() {
         viewModelScope.launch {
             jobsRepository.getJobs()
-                .collect { _state.emit(_state.value.copy(jobs = it, isLoading = false)) }
+                .collect {
+                    _state.emit(_state.value.copy(jobs = it, filteredJobs = it, isLoading = false))
+                }
         }
     }
 
@@ -36,6 +38,17 @@ class JobsViewModel @Inject constructor(
             _state.emit(_state.value.copy(isLoading = true))
             jobsRepository.syncJobs()
             _state.emit(_state.value.copy(isLoading = false))
+        }
+    }
+
+    fun submitQuery(query: String?) {
+        viewModelScope.launch {
+            val filteredJobs = if (query.isNullOrBlank()) {
+                _state.value.jobs
+            } else {
+                _state.value.jobs.filter { it.position.lowercase().contains(query.lowercase()) }
+            }
+            _state.emit(_state.value.copy(query = query, filteredJobs = filteredJobs))
         }
     }
 }

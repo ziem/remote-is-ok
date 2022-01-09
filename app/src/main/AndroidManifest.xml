@@ -16,6 +16,7 @@
             android:name="com.github.ziem.remoteisok.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.RemoteIsOK.NoActionBar"
+            android:windowSoftInputMode="adjustResize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
