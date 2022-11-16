@@ -6,6 +6,8 @@ plugins {
 }
 
 android {
+    namespace 'com.github.ziem.remoteisok'
+
     compileSdkVersion 33
 
     defaultConfig {
