@@ -5,7 +5,7 @@ buildscript {
         dagger_version = '2.42'
         kotlin_version = '1.7.10'
         room_version = '2.4.3'
-        accompanist_version = '0.27.0'
+        accompanist_version = '0.27.1'
     }
     repositories {
         google()
