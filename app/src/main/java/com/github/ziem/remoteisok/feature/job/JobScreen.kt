@@ -1,5 +1,6 @@
 package com.github.ziem.remoteisok.feature.job
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.Column
@@ -33,6 +34,7 @@ import org.commonmark.node.Document
 import org.commonmark.parser.Parser
 import se.hellsoft.markdowncomposer.MDDocument
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun JobScreen(viewModel: JobViewModel, jobId: Long) {
     val state by viewModel.state.collectAsState()

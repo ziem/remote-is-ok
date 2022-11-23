@@ -1,5 +1,6 @@
 package com.github.ziem.remoteisok.feature.jobs
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -72,6 +73,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch
 import kotlin.math.min
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @ExperimentalFoundationApi
 @Composable
