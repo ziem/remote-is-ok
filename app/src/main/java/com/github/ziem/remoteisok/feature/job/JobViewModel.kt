@@ -13,7 +13,7 @@ import javax.inject.Inject
 class JobViewModel @Inject constructor(
     private val jobsRepository: JobsRepository
 ) : ViewModel() {
-    private val _state = MutableStateFlow(JobViewState())
+    private val _state = MutableStateFlow(JobViewState(isLoading = true))
 
     val state: StateFlow<JobViewState>
         get() = _state
