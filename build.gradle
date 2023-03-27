@@ -4,7 +4,7 @@ buildscript {
         compose_version = '1.3.3'
         dagger_version = '2.45'
         kotlin_version = '1.8.10'
-        room_version = '2.5.0'
+        room_version = '2.5.1'
         accompanist_version = '0.30.0'
     }
     repositories {
