@@ -1,6 +1,6 @@
-# Remote is OK app
+# 🏗️ Remote is OK app 🧪
 
-🏗️ Jetpack Compose & Kotlin Coroutines playground 🧪
+This repository contains the Remote is OK app, an Android application created using Kotlin and Jetpack Compose. The app is designed to allow users to browse remote job listings fetched from the Remote OK API.
 
 ![Remote is OK app](/screenshots/remote-is-ok.png)
 
