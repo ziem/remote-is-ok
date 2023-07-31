@@ -2,7 +2,7 @@
 buildscript {
     ext {
         compose_version = '1.4.3'
-        dagger_version = '2.46.1'
+        dagger_version = '2.47'
         kotlin_version = '1.8.21'
         room_version = '2.5.2'
         accompanist_version = '0.30.1'
